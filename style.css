@@ -535,32 +535,36 @@ body.dark-mode .change-display {
 
 .change-display h3 {
     margin-top: 0;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     font-size: 1.1rem;
+    text-align: center;
 }
 
-.change-row {
+.change-values-container {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    gap: 15px;
+    justify-content: center;
 }
 
-.change-row:last-child {
-    margin-bottom: 0;
+.change-value-box {
+    background: #f5f5f5;
+    padding: 20px 30px;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.6s ease, border-color 0.6s ease;
 }
 
-.change-row label {
-    font-weight: 600;
-    color: #333;
-    transition: color 0.6s ease;
-}
-
-body.dark-mode .change-row label {
-    color: #e0e0e0;
+body.dark-mode .change-value-box {
+    background: #1a1a1a;
+    border-color: #404040;
 }
 
 .change-value {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: #4CAF50;
     transition: color 0.6s ease;

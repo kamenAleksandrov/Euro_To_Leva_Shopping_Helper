@@ -175,8 +175,8 @@
                         <div class="coins-column">
                             <h4 data-i18n="coins">Coins</h4>
                             <div class="bills-grid">
-                                <button class="bill-btn coin" data-value="2" data-currency="leva">2 лв</button>
-                                <button class="bill-btn coin" data-value="1" data-currency="leva">1 лв</button>
+                                <button class="bill-btn coin change-btn" data-value="2" data-currency="leva">2 лв</button>
+                                <button class="bill-btn coin change-btn" data-value="1" data-currency="leva">1 лв</button>
                                 <button class="bill-btn coin change-btn" data-value="0.50" data-currency="leva">50 ст</button>
                                 <button class="bill-btn coin change-btn" data-value="0.20" data-currency="leva">20 ст</button>
                                 <button class="bill-btn coin change-btn" data-value="0.10" data-currency="leva">10 ст</button>
@@ -225,13 +225,13 @@
             <!-- Change Display -->
             <div class="change-display">
                 <h3 data-i18n="remainingChange">Remaining Change to Give</h3>
-                <div class="change-row">
-                    <label data-i18n="changeLeva">Change in Leva:</label>
-                    <span id="changeLeva" class="change-value">0.00 лв</span>
-                </div>
-                <div class="change-row">
-                    <label data-i18n="changeEuro">Change in Euro:</label>
-                    <span id="changeEuro" class="change-value">0.00 €</span>
+                <div class="change-values-container">
+                    <div class="change-value-box">
+                        <span id="changeLeva" class="change-value">0.00 лв</span>
+                    </div>
+                    <div class="change-value-box">
+                        <span id="changeEuro" class="change-value">0.00 €</span>
+                    </div>
                 </div>
             </div>
         </div>

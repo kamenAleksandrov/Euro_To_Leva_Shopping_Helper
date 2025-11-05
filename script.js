@@ -29,6 +29,11 @@ const translations = {
         remainingChange: "Remaining Change to Give",
         changeLeva: "Change in Leva:",
         changeEuro: "Change in Euro:",
+        needToPayMore: "⚠️ Need to Pay More",
+        changeToReturn: "💰 Change to Return",
+        transactionComplete: "✅ Transaction Complete",
+        amountOwed: "Amount Still Owed:",
+        changeOwed: "Change to Give Back:",
         noItems: "No items added yet",
         delete: "Delete",
         alertInvalid: "Please enter a valid item name and price."
@@ -59,6 +64,11 @@ const translations = {
         remainingChange: "Оставащо Ресто за Връщане",
         changeLeva: "Ресто в Лева:",
         changeEuro: "Ресто в Евро:",
+        needToPayMore: "⚠️ Трябва да Платите Повече",
+        changeToReturn: "💰 Ресто за Връщане",
+        transactionComplete: "✅ Транзакция Завършена",
+        amountOwed: "Все още Дължима Сума:",
+        changeOwed: "Ресто за Връщане:",
         noItems: "Все още няма добавени продукти",
         delete: "Изтрий",
         alertInvalid: "Моля въведете валидно име и цена на продукта."
@@ -383,17 +393,32 @@ function updateChange() {
     const remainingChangeLeva = changeNeededLeva - totalChangeGivenInLeva;
     const remainingChangeEuro = changeNeededEuro - totalChangeGivenInEuro;
     
-    changeLevaEl.textContent = `${remainingChangeLeva.toFixed(2)} лв`;
-    changeEuroEl.textContent = `${remainingChangeEuro.toFixed(2)} €`;
+    // Get the change display section heading
+    const changeDisplayHeading = document.querySelector('.change-display h3');
     
-    // Color coding for change
+    // Determine the state and update heading dynamically
     if (remainingChangeLeva < -0.01 || remainingChangeEuro < -0.01) {
+        // Underpaid - customer needs to pay more
+        changeDisplayHeading.textContent = translations[currentLang].needToPayMore;
+        
+        changeLevaEl.textContent = `${Math.abs(remainingChangeLeva).toFixed(2)} лв`;
+        changeEuroEl.textContent = `${Math.abs(remainingChangeEuro).toFixed(2)} €`;
         changeLevaEl.style.color = '#ff6b6b';
         changeEuroEl.style.color = '#ff6b6b';
     } else if (remainingChangeLeva > 0.01 || remainingChangeEuro > 0.01) {
+        // Overpaid - cashier needs to give change back
+        changeDisplayHeading.textContent = translations[currentLang].changeToReturn;
+        
+        changeLevaEl.textContent = `${remainingChangeLeva.toFixed(2)} лв`;
+        changeEuroEl.textContent = `${remainingChangeEuro.toFixed(2)} €`;
         changeLevaEl.style.color = '#FF9800'; // Orange for pending change
         changeEuroEl.style.color = '#FF9800';
     } else {
+        // Transaction complete - exact payment
+        changeDisplayHeading.textContent = translations[currentLang].transactionComplete;
+        
+        changeLevaEl.textContent = `0.00 лв`;
+        changeEuroEl.textContent = `0.00 €`;
         changeLevaEl.style.color = '#4CAF50';
         changeEuroEl.style.color = '#4CAF50';
     }

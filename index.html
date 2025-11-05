@@ -8,31 +8,47 @@
 </head>
 <body>
     <div class="container">
-        <h1>🛒 Shopping Helper</h1>
-        <p class="subtitle">Euro ⇄ Leva Converter</p>
+        <div class="header-with-lang">
+            <div class="header-content">
+                <h1>🛒 <span data-i18n="title">Shopping Helper</span></h1>
+                <p class="subtitle" data-i18n="subtitle">Euro ⇄ Leva Converter</p>
+            </div>
+            <div class="header-buttons">
+                <button id="darkModeToggle" class="dark-mode-toggle" title="Toggle Dark Mode">
+                    <span class="dark-mode-icon">🌙</span>
+                </button>
+                <button id="langToggle" class="lang-toggle">
+                    <span class="flag">🇧🇬</span>
+                    <span class="lang-text">БГ</span>
+                </button>
+            </div>
+        </div>
         
         <!-- Items Section -->
         <div class="items-section">
-            <h2>Shopping List</h2>
+            <h2 data-i18n="shoppingList">Shopping List</h2>
             <div class="item-input-group">
-                <input type="text" id="itemName" placeholder="Item name" class="item-name-input">
-                <input type="number" id="itemPrice" placeholder="Price" step="0.01" class="item-price-input">
+                <input type="text" id="itemName" data-i18n-placeholder="itemName" placeholder="Item name" class="item-name-input" list="foodItems">
+                <datalist id="foodItems">
+                    <!-- Options will be populated dynamically by JavaScript -->
+                </datalist>
+                <input type="number" id="itemPrice" data-i18n-placeholder="price" placeholder="Price" step="0.01" class="item-price-input">
                 <select id="itemCurrency" class="currency-select">
                     <option value="leva">Leva (лв)</option>
                     <option value="euro">Euro (€)</option>
                 </select>
-                <button id="addItemBtn" class="btn-primary">Add Item</button>
+                <button id="addItemBtn" class="btn-primary" data-i18n="addItem">Add Item</button>
             </div>
             
             <div id="itemsList" class="items-list"></div>
             
             <div class="totals">
                 <div class="total-row">
-                    <span>Total in Leva:</span>
+                    <span data-i18n="totalLeva">Total in Leva:</span>
                     <span id="totalLeva" class="total-value">0.00 лв</span>
                 </div>
                 <div class="total-row">
-                    <span>Total in Euro:</span>
+                    <span data-i18n="totalEuro">Total in Euro:</span>
                     <span id="totalEuro" class="total-value">0.00 €</span>
                 </div>
             </div>
@@ -40,139 +56,181 @@
 
         <!-- Payment Section -->
         <div class="payment-section">
-            <h2>Payment</h2>
+            <h2 data-i18n="payment">Payment</h2>
             <div class="payment-display">
                 <div class="payment-row">
-                    <label>Giving in Leva:</label>
-                    <input type="text" id="paymentLeva" class="payment-input" readonly value="0.00 лв">
+                    <label data-i18n="givingLeva">Giving in Leva:</label>
+                    <input type="number" id="paymentLeva" class="payment-input" step="0.01" value="0.00">
                 </div>
                 <div class="payment-row">
-                    <label>Giving in Euro:</label>
-                    <input type="text" id="paymentEuro" class="payment-input" readonly value="0.00 €">
+                    <label data-i18n="givingEuro">Giving in Euro:</label>
+                    <input type="number" id="paymentEuro" class="payment-input" step="0.01" value="0.00">
                 </div>
             </div>
 
             <!-- Currency Switch -->
             <div class="currency-switch">
-                <button id="levaTab" class="tab-btn active">Leva (лв)</button>
-                <button id="euroTab" class="tab-btn">Euro (€)</button>
+                <button id="levaTab" class="tab-btn active" data-i18n="levaTab">Leva (лв)</button>
+                <button id="euroTab" class="tab-btn" data-i18n="euroTab">Euro (€)</button>
             </div>
 
             <!-- Bills and Coins - Leva -->
             <div id="levaPanel" class="bills-panel active">
-                <h3>Leva Bills & Coins</h3>
-                <div class="bills-grid">
-                    <button class="bill-btn" data-value="100" data-currency="leva">100 лв</button>
-                    <button class="bill-btn" data-value="50" data-currency="leva">50 лв</button>
-                    <button class="bill-btn" data-value="20" data-currency="leva">20 лв</button>
-                    <button class="bill-btn" data-value="10" data-currency="leva">10 лв</button>
-                    <button class="bill-btn" data-value="5" data-currency="leva">5 лв</button>
-                    <button class="bill-btn" data-value="2" data-currency="leva">2 лв</button>
-                    <button class="bill-btn" data-value="1" data-currency="leva">1 лв</button>
-                    <button class="bill-btn coin" data-value="0.50" data-currency="leva">50 ст</button>
-                    <button class="bill-btn coin" data-value="0.20" data-currency="leva">20 ст</button>
-                    <button class="bill-btn coin" data-value="0.10" data-currency="leva">10 ст</button>
-                    <button class="bill-btn coin" data-value="0.05" data-currency="leva">5 ст</button>
-                    <button class="bill-btn coin" data-value="0.02" data-currency="leva">2 ст</button>
-                    <button class="bill-btn coin" data-value="0.01" data-currency="leva">1 ст</button>
+                <h3 data-i18n="levaBillsCoins">Leva Bills & Coins</h3>
+                <div class="bills-coins-container">
+                    <div class="bills-column">
+                        <h4 data-i18n="bills">Bills</h4>
+                        <div class="bills-grid">
+                            <button class="bill-btn" data-value="100" data-currency="leva">100 лв</button>
+                            <button class="bill-btn" data-value="50" data-currency="leva">50 лв</button>
+                            <button class="bill-btn" data-value="20" data-currency="leva">20 лв</button>
+                            <button class="bill-btn" data-value="10" data-currency="leva">10 лв</button>
+                            <button class="bill-btn" data-value="5" data-currency="leva">5 лв</button>
+                        </div>
+                    </div>
+                    <div class="coins-column">
+                        <h4 data-i18n="coins">Coins</h4>
+                        <div class="bills-grid">
+                            <button class="bill-btn coin" data-value="2" data-currency="leva">2 лв</button>
+                            <button class="bill-btn coin" data-value="1" data-currency="leva">1 лв</button>
+                            <button class="bill-btn coin" data-value="0.50" data-currency="leva">50 ст</button>
+                            <button class="bill-btn coin" data-value="0.20" data-currency="leva">20 ст</button>
+                            <button class="bill-btn coin" data-value="0.10" data-currency="leva">10 ст</button>
+                            <button class="bill-btn coin" data-value="0.05" data-currency="leva">5 ст</button>
+                            <button class="bill-btn coin" data-value="0.02" data-currency="leva">2 ст</button>
+                            <button class="bill-btn coin" data-value="0.01" data-currency="leva">1 ст</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Bills and Coins - Euro -->
             <div id="euroPanel" class="bills-panel">
-                <h3>Euro Bills & Coins</h3>
-                <div class="bills-grid">
-                    <button class="bill-btn" data-value="500" data-currency="euro">500 €</button>
-                    <button class="bill-btn" data-value="200" data-currency="euro">200 €</button>
-                    <button class="bill-btn" data-value="100" data-currency="euro">100 €</button>
-                    <button class="bill-btn" data-value="50" data-currency="euro">50 €</button>
-                    <button class="bill-btn" data-value="20" data-currency="euro">20 €</button>
-                    <button class="bill-btn" data-value="10" data-currency="euro">10 €</button>
-                    <button class="bill-btn" data-value="5" data-currency="euro">5 €</button>
-                    <button class="bill-btn coin" data-value="2" data-currency="euro">2 €</button>
-                    <button class="bill-btn coin" data-value="1" data-currency="euro">1 €</button>
-                    <button class="bill-btn coin" data-value="0.50" data-currency="euro">50 c</button>
-                    <button class="bill-btn coin" data-value="0.20" data-currency="euro">20 c</button>
-                    <button class="bill-btn coin" data-value="0.10" data-currency="euro">10 c</button>
-                    <button class="bill-btn coin" data-value="0.05" data-currency="euro">5 c</button>
-                    <button class="bill-btn coin" data-value="0.02" data-currency="euro">2 c</button>
-                    <button class="bill-btn coin" data-value="0.01" data-currency="euro">1 c</button>
+                <h3 data-i18n="euroBillsCoins">Euro Bills & Coins</h3>
+                <div class="bills-coins-container">
+                    <div class="bills-column">
+                        <h4 data-i18n="bills">Bills</h4>
+                        <div class="bills-grid">
+                            <button class="bill-btn" data-value="500" data-currency="euro">500 €</button>
+                            <button class="bill-btn" data-value="200" data-currency="euro">200 €</button>
+                            <button class="bill-btn" data-value="100" data-currency="euro">100 €</button>
+                            <button class="bill-btn" data-value="50" data-currency="euro">50 €</button>
+                            <button class="bill-btn" data-value="20" data-currency="euro">20 €</button>
+                            <button class="bill-btn" data-value="10" data-currency="euro">10 €</button>
+                            <button class="bill-btn" data-value="5" data-currency="euro">5 €</button>
+                        </div>
+                    </div>
+                    <div class="coins-column">
+                        <h4 data-i18n="coins">Coins</h4>
+                        <div class="bills-grid">
+                            <button class="bill-btn coin" data-value="2" data-currency="euro">2 €</button>
+                            <button class="bill-btn coin" data-value="1" data-currency="euro">1 €</button>
+                            <button class="bill-btn coin" data-value="0.50" data-currency="euro">50 c</button>
+                            <button class="bill-btn coin" data-value="0.20" data-currency="euro">20 c</button>
+                            <button class="bill-btn coin" data-value="0.10" data-currency="euro">10 c</button>
+                            <button class="bill-btn coin" data-value="0.05" data-currency="euro">5 c</button>
+                            <button class="bill-btn coin" data-value="0.02" data-currency="euro">2 c</button>
+                            <button class="bill-btn coin" data-value="0.01" data-currency="euro">1 c</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Reset Payment Button -->
-            <button id="resetPaymentBtn" class="btn-secondary">Reset Payment</button>
+            <button id="resetPaymentBtn" class="btn-secondary" data-i18n="resetPayment">Reset Payment</button>
 
             <!-- Change Given Section -->
             <div class="change-given-section">
-                <h3>Change Already Given</h3>
+                <h3 data-i18n="changeGiven">Change Already Given</h3>
                 <div class="payment-display">
                     <div class="payment-row">
-                        <label>Given in Leva:</label>
-                        <input type="text" id="changeGivenLeva" class="payment-input" readonly value="0.00 лв">
+                        <label data-i18n="givenLeva">Given in Leva:</label>
+                        <input type="number" id="changeGivenLeva" class="payment-input" step="0.01" value="0.00">
                     </div>
                     <div class="payment-row">
-                        <label>Given in Euro:</label>
-                        <input type="text" id="changeGivenEuro" class="payment-input" readonly value="0.00 €">
+                        <label data-i18n="givenEuro">Given in Euro:</label>
+                        <input type="number" id="changeGivenEuro" class="payment-input" step="0.01" value="0.00">
                     </div>
                 </div>
 
                 <!-- Currency Switch for Change Given -->
                 <div class="currency-switch">
-                    <button id="changeLevaTab" class="tab-btn active">Leva (лв)</button>
-                    <button id="changeEuroTab" class="tab-btn">Euro (€)</button>
+                    <button id="changeLevaTab" class="tab-btn active" data-i18n="levaTab">Leva (лв)</button>
+                    <button id="changeEuroTab" class="tab-btn" data-i18n="euroTab">Euro (€)</button>
                 </div>
 
                 <!-- Bills and Coins - Leva (Change Given) -->
                 <div id="changeLevaPanel" class="bills-panel active">
-                    <div class="bills-grid">
-                        <button class="bill-btn change-btn" data-value="100" data-currency="leva">100 лв</button>
-                        <button class="bill-btn change-btn" data-value="50" data-currency="leva">50 лв</button>
-                        <button class="bill-btn change-btn" data-value="20" data-currency="leva">20 лв</button>
-                        <button class="bill-btn change-btn" data-value="10" data-currency="leva">10 лв</button>
-                        <button class="bill-btn change-btn" data-value="5" data-currency="leva">5 лв</button>
-                        <button class="bill-btn change-btn" data-value="2" data-currency="leva">2 лв</button>
-                        <button class="bill-btn change-btn" data-value="1" data-currency="leva">1 лв</button>
-                        <button class="bill-btn coin change-btn" data-value="0.50" data-currency="leva">50 ст</button>
-                        <button class="bill-btn coin change-btn" data-value="0.20" data-currency="leva">20 ст</button>
-                        <button class="bill-btn coin change-btn" data-value="0.10" data-currency="leva">10 ст</button>
-                        <button class="bill-btn coin change-btn" data-value="0.05" data-currency="leva">5 ст</button>
-                        <button class="bill-btn coin change-btn" data-value="0.02" data-currency="leva">2 ст</button>
-                        <button class="bill-btn coin change-btn" data-value="0.01" data-currency="leva">1 ст</button>
+                    <div class="bills-coins-container">
+                        <div class="bills-column">
+                            <h4 data-i18n="bills">Bills</h4>
+                            <div class="bills-grid">
+                                <button class="bill-btn change-btn" data-value="100" data-currency="leva">100 лв</button>
+                                <button class="bill-btn change-btn" data-value="50" data-currency="leva">50 лв</button>
+                                <button class="bill-btn change-btn" data-value="20" data-currency="leva">20 лв</button>
+                                <button class="bill-btn change-btn" data-value="10" data-currency="leva">10 лв</button>
+                                <button class="bill-btn change-btn" data-value="5" data-currency="leva">5 лв</button>
+                            </div>
+                        </div>
+                        <div class="coins-column">
+                            <h4 data-i18n="coins">Coins</h4>
+                            <div class="bills-grid">
+                                <button class="bill-btn coin" data-value="2" data-currency="leva">2 лв</button>
+                                <button class="bill-btn coin" data-value="1" data-currency="leva">1 лв</button>
+                                <button class="bill-btn coin change-btn" data-value="0.50" data-currency="leva">50 ст</button>
+                                <button class="bill-btn coin change-btn" data-value="0.20" data-currency="leva">20 ст</button>
+                                <button class="bill-btn coin change-btn" data-value="0.10" data-currency="leva">10 ст</button>
+                                <button class="bill-btn coin change-btn" data-value="0.05" data-currency="leva">5 ст</button>
+                                <button class="bill-btn coin change-btn" data-value="0.02" data-currency="leva">2 ст</button>
+                                <button class="bill-btn coin change-btn" data-value="0.01" data-currency="leva">1 ст</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Bills and Coins - Euro (Change Given) -->
                 <div id="changeEuroPanel" class="bills-panel">
-                    <div class="bills-grid">
-                        <button class="bill-btn change-btn" data-value="500" data-currency="euro">500 €</button>
-                        <button class="bill-btn change-btn" data-value="200" data-currency="euro">200 €</button>
-                        <button class="bill-btn change-btn" data-value="100" data-currency="euro">100 €</button>
-                        <button class="bill-btn change-btn" data-value="50" data-currency="euro">50 €</button>
-                        <button class="bill-btn change-btn" data-value="20" data-currency="euro">20 €</button>
-                        <button class="bill-btn change-btn" data-value="10" data-currency="euro">10 €</button>
-                        <button class="bill-btn change-btn" data-value="5" data-currency="euro">5 €</button>
-                        <button class="bill-btn coin change-btn" data-value="2" data-currency="euro">2 €</button>
-                        <button class="bill-btn coin change-btn" data-value="1" data-currency="euro">1 €</button>
-                        <button class="bill-btn coin change-btn" data-value="0.50" data-currency="euro">50 c</button>
-                        <button class="bill-btn coin change-btn" data-value="0.20" data-currency="euro">20 c</button>
-                        <button class="bill-btn coin change-btn" data-value="0.10" data-currency="euro">10 c</button>
-                        <button class="bill-btn coin change-btn" data-value="0.05" data-currency="euro">5 c</button>
-                        <button class="bill-btn coin change-btn" data-value="0.02" data-currency="euro">2 c</button>
-                        <button class="bill-btn coin change-btn" data-value="0.01" data-currency="euro">1 c</button>
+                    <div class="bills-coins-container">
+                        <div class="bills-column">
+                            <h4 data-i18n="bills">Bills</h4>
+                            <div class="bills-grid">
+                                <button class="bill-btn change-btn" data-value="500" data-currency="euro">500 €</button>
+                                <button class="bill-btn change-btn" data-value="200" data-currency="euro">200 €</button>
+                                <button class="bill-btn change-btn" data-value="100" data-currency="euro">100 €</button>
+                                <button class="bill-btn change-btn" data-value="50" data-currency="euro">50 €</button>
+                                <button class="bill-btn change-btn" data-value="20" data-currency="euro">20 €</button>
+                                <button class="bill-btn change-btn" data-value="10" data-currency="euro">10 €</button>
+                                <button class="bill-btn change-btn" data-value="5" data-currency="euro">5 €</button>
+                            </div>
+                        </div>
+                        <div class="coins-column">
+                            <h4 data-i18n="coins">Coins</h4>
+                            <div class="bills-grid">
+                                <button class="bill-btn coin change-btn" data-value="2" data-currency="euro">2 €</button>
+                                <button class="bill-btn coin change-btn" data-value="1" data-currency="euro">1 €</button>
+                                <button class="bill-btn coin change-btn" data-value="0.50" data-currency="euro">50 c</button>
+                                <button class="bill-btn coin change-btn" data-value="0.20" data-currency="euro">20 c</button>
+                                <button class="bill-btn coin change-btn" data-value="0.10" data-currency="euro">10 c</button>
+                                <button class="bill-btn coin change-btn" data-value="0.05" data-currency="euro">5 c</button>
+                                <button class="bill-btn coin change-btn" data-value="0.02" data-currency="euro">2 c</button>
+                                <button class="bill-btn coin change-btn" data-value="0.01" data-currency="euro">1 c</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
+                <button id="resetChangeBtn" class="btn-secondary" data-i18n="resetChange">Reset Change</button>
             </div>
 
             <!-- Change Display -->
             <div class="change-display">
-                <h3>Remaining Change to Give</h3>
+                <h3 data-i18n="remainingChange">Remaining Change to Give</h3>
                 <div class="change-row">
-                    <label>Change in Leva:</label>
+                    <label data-i18n="changeLeva">Change in Leva:</label>
                     <span id="changeLeva" class="change-value">0.00 лв</span>
                 </div>
                 <div class="change-row">
-                    <label>Change in Euro:</label>
+                    <label data-i18n="changeEuro">Change in Euro:</label>
                     <span id="changeEuro" class="change-value">0.00 €</span>
                 </div>
             </div>

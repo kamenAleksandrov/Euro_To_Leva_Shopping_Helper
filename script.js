@@ -1,6 +1,108 @@
 // Exchange rate: 1 EUR = 1.95583 BGN (Bulgarian Leva)
 const EXCHANGE_RATE = 1.95583;
 
+// Language translations
+const translations = {
+    en: {
+        title: "Shopping Helper",
+        subtitle: "Euro ⇄ Leva Converter",
+        shoppingList: "Shopping List",
+        itemName: "Item name",
+        price: "Price",
+        addItem: "Add Item",
+        totalLeva: "Total in Leva:",
+        totalEuro: "Total in Euro:",
+        payment: "Payment",
+        givingLeva: "Giving in Leva:",
+        givingEuro: "Giving in Euro:",
+        levaTab: "Leva (лв)",
+        euroTab: "Euro (€)",
+        levaBillsCoins: "Leva Bills & Coins",
+        euroBillsCoins: "Euro Bills & Coins",
+        bills: "Bills",
+        coins: "Coins",
+        resetPayment: "Reset Payment",
+        changeGiven: "Change Already Given",
+        givenLeva: "Given in Leva:",
+        givenEuro: "Given in Euro:",
+        resetChange: "Reset Change",
+        remainingChange: "Remaining Change to Give",
+        changeLeva: "Change in Leva:",
+        changeEuro: "Change in Euro:",
+        noItems: "No items added yet",
+        delete: "Delete",
+        alertInvalid: "Please enter a valid item name and price."
+    },
+    bg: {
+        title: "Помощник за Пазаруване",
+        subtitle: "Евро ⇄ Лева Конвертор",
+        shoppingList: "Списък за Пазаруване",
+        itemName: "Име на продукт",
+        price: "Цена",
+        addItem: "Добави Продукт",
+        totalLeva: "Общо в Лева:",
+        totalEuro: "Общо в Евро:",
+        payment: "Плащане",
+        givingLeva: "Давам в Лева:",
+        givingEuro: "Давам в Евро:",
+        levaTab: "Лева (лв)",
+        euroTab: "Евро (€)",
+        levaBillsCoins: "Банкноти и Монети в Лева",
+        euroBillsCoins: "Банкноти и Монети в Евро",
+        bills: "Банкноти",
+        coins: "Монети",
+        resetPayment: "Нулирай Плащане",
+        changeGiven: "Вече Дадено Ресто",
+        givenLeva: "Дадено в Лева:",
+        givenEuro: "Дадено в Евро:",
+        resetChange: "Нулирай Ресто",
+        remainingChange: "Оставащо Ресто за Връщане",
+        changeLeva: "Ресто в Лева:",
+        changeEuro: "Ресто в Евро:",
+        noItems: "Все още няма добавени продукти",
+        delete: "Изтрий",
+        alertInvalid: "Моля въведете валидно име и цена на продукта."
+    }
+};
+
+// Food items in both languages
+const foodItems = {
+    en: [
+        "Tomatoes", "Potatoes", "Onions", "Carrots", "Peppers", "Cucumbers", "Lettuce", 
+        "Cabbage", "Broccoli", "Cauliflower", "Spinach", "Zucchini", "Eggplant", "Garlic", "Mushrooms",
+        "Apples", "Bananas", "Oranges", "Grapes", "Strawberries", "Watermelon", "Peaches", 
+        "Pears", "Lemons", "Cherries",
+        "Chicken Breast", "Chicken Thighs", "Ground Beef", "Beef Steak", "Pork Chops", 
+        "Pork Ribs", "Bacon", "Sausages", "Salami", "Ham", "Turkey",
+        "Salmon", "Tuna", "Cod", "Shrimp", "Mussels",
+        "Milk", "Yogurt", "Cheese", "Butter", "Eggs", "Cream", "Sour Cream", "Feta Cheese", "Mozzarella",
+        "Bread", "Baguette", "Croissant", "Rolls", "Pita Bread",
+        "Rice", "Pasta", "Flour", "Oats", "Buckwheat",
+        "Tomato Sauce", "Canned Tomatoes", "Olives", "Pickles", "Beans",
+        "Water", "Juice", "Coffee", "Tea", "Soda", "Wine", "Beer",
+        "Chocolate", "Cookies", "Chips", "Nuts", "Candy",
+        "Salt", "Pepper", "Sugar", "Oil", "Vinegar", "Ketchup", "Mayonnaise", "Mustard"
+    ],
+    bg: [
+        "Домати", "Картофи", "Лук", "Моркови", "Чушки", "Краstavици", "Маруля", 
+        "Зеле", "Броколи", "Карфиол", "Спанак", "Тиквички", "Патладжан", "Чесън", "Гъби",
+        "Ябълки", "Банани", "Портокали", "Грозде", "Ягоди", "Диня", "Праскови", 
+        "Круши", "Лимони", "Череши",
+        "Пилешки гърди", "Пилешки бутчета", "Кайма", "Телешки стек", "Свински котлети", 
+        "Свински ребра", "Бекон", "Наденици", "Салам", "Шунка", "Пуешко",
+        "Сьомга", "Риба тон", "Треска", "Скариди", "Миди",
+        "Мляко", "Кисело мляко", "Сирене", "Масло", "Яйца", "Сметана", "Заквасена сметана", "Фета сирене", "Моцарела",
+        "Хляб", "Багета", "Кроасан", "Питки", "Пита хляб",
+        "Ориз", "Паста", "Брашно", "Овесени ядки", "Елда",
+        "Доматен сос", "Консервирани домати", "Маслини", "Кисели краставички", "Боб",
+        "Вода", "Сок", "Кафе", "Чай", "Газирана напитка", "Вино", "Бира",
+        "Шоколад", "Бисквити", "Чипс", "Ядки", "Бонбони",
+        "Сол", "Пипер", "Захар", "Олио", "Оцет", "Кетчуп", "Майонеза", "Горчица"
+    ]
+};
+
+let currentLang = 'en';
+
 // App state
 let items = [];
 let paymentLeva = 0;
@@ -23,14 +125,39 @@ const euroTab = document.getElementById('euroTab');
 const levaPanel = document.getElementById('levaPanel');
 const euroPanel = document.getElementById('euroPanel');
 const resetPaymentBtn = document.getElementById('resetPaymentBtn');
+const resetChangeBtn = document.getElementById('resetChangeBtn');
 const changeLevaEl = document.getElementById('changeLeva');
 const changeEuroEl = document.getElementById('changeEuro');
+const langToggle = document.getElementById('langToggle');
+const darkModeToggle = document.getElementById('darkModeToggle');
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     addItemBtn.addEventListener('click', addItem);
     itemPriceInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') addItem();
+    });
+    
+    // Manual edit for payment fields
+    paymentLevaInput.addEventListener('input', () => {
+        paymentLeva = parseFloat(paymentLevaInput.value) || 0;
+        updateChange();
+    });
+    
+    paymentEuroInput.addEventListener('input', () => {
+        paymentEuro = parseFloat(paymentEuroInput.value) || 0;
+        updateChange();
+    });
+    
+    // Manual edit for change given fields
+    document.getElementById('changeGivenLeva').addEventListener('input', (e) => {
+        changeGivenLeva = parseFloat(e.target.value) || 0;
+        updateChange();
+    });
+    
+    document.getElementById('changeGivenEuro').addEventListener('input', (e) => {
+        changeGivenEuro = parseFloat(e.target.value) || 0;
+        updateChange();
     });
     
     // Currency switch tabs for payment
@@ -62,8 +189,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reset payment button
     resetPaymentBtn.addEventListener('click', resetPayment);
     
+    // Reset change button
+    resetChangeBtn.addEventListener('click', resetChange);
+    
+    // Language toggle button
+    langToggle.addEventListener('click', toggleLanguage);
+    
+    // Dark mode toggle button
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+    
     // Initialize displays
     updateChangeGivenDisplay();
+    updateFoodItemsList();
+    loadDarkModePreference();
 });
 
 // Add item to the list
@@ -73,7 +211,7 @@ function addItem() {
     const currency = itemCurrencySelect.value;
     
     if (!name || isNaN(price) || price <= 0) {
-        alert('Please enter a valid item name and price.');
+        alert(translations[currentLang].alertInvalid);
         return;
     }
     
@@ -112,7 +250,7 @@ function addItem() {
 // Render items list
 function renderItems() {
     if (items.length === 0) {
-        itemsList.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No items added yet</p>';
+        itemsList.innerHTML = `<p style="text-align: center; color: #999; padding: 20px;">${translations[currentLang].noItems}</p>`;
         return;
     }
     
@@ -124,7 +262,7 @@ function renderItems() {
                     ${item.priceInLeva.toFixed(2)} лв | ${item.priceInEuro.toFixed(2)} €
                 </div>
             </div>
-            <button class="delete-btn" onclick="deleteItem(${item.id})">Delete</button>
+            <button class="delete-btn" onclick="deleteItem(${item.id})">${translations[currentLang].delete}</button>
         </div>
     `).join('');
 }
@@ -204,17 +342,22 @@ function addPayment(value, currency) {
 
 // Update payment display
 function updatePaymentDisplay() {
-    paymentLevaInput.value = `${paymentLeva.toFixed(2)} лв`;
-    paymentEuroInput.value = `${paymentEuro.toFixed(2)} €`;
+    paymentLevaInput.value = paymentLeva.toFixed(2);
+    paymentEuroInput.value = paymentEuro.toFixed(2);
 }
 
 // Reset payment
 function resetPayment() {
     paymentLeva = 0;
     paymentEuro = 0;
+    updatePaymentDisplay();
+    updateChange();
+}
+
+// Reset change
+function resetChange() {
     changeGivenLeva = 0;
     changeGivenEuro = 0;
-    updatePaymentDisplay();
     updateChangeGivenDisplay();
     updateChange();
 }
@@ -224,13 +367,21 @@ function updateChange() {
     const totalInLeva = getTotalInLeva();
     const totalInEuro = getTotalInEuro();
     
+    // Calculate total payment converted to both currencies
+    const totalPaymentInLeva = paymentLeva + (paymentEuro * EXCHANGE_RATE);
+    const totalPaymentInEuro = paymentEuro + (paymentLeva / EXCHANGE_RATE);
+    
+    // Calculate total change given converted to both currencies
+    const totalChangeGivenInLeva = changeGivenLeva + (changeGivenEuro * EXCHANGE_RATE);
+    const totalChangeGivenInEuro = changeGivenEuro + (changeGivenLeva / EXCHANGE_RATE);
+    
     // Calculate change needed (what customer should receive back)
-    const changeNeededLeva = paymentLeva - totalInLeva;
-    const changeNeededEuro = paymentEuro - totalInEuro;
+    const changeNeededLeva = totalPaymentInLeva - totalInLeva;
+    const changeNeededEuro = totalPaymentInEuro - totalInEuro;
     
     // Calculate remaining change to give (change needed minus what's already given)
-    const remainingChangeLeva = changeNeededLeva - changeGivenLeva;
-    const remainingChangeEuro = changeNeededEuro - changeGivenEuro;
+    const remainingChangeLeva = changeNeededLeva - totalChangeGivenInLeva;
+    const remainingChangeEuro = changeNeededEuro - totalChangeGivenInEuro;
     
     changeLevaEl.textContent = `${remainingChangeLeva.toFixed(2)} лв`;
     changeEuroEl.textContent = `${remainingChangeEuro.toFixed(2)} €`;
@@ -262,6 +413,71 @@ function addChangeGiven(value, currency) {
 
 // Update change given display
 function updateChangeGivenDisplay() {
-    document.getElementById('changeGivenLeva').value = `${changeGivenLeva.toFixed(2)} лв`;
-    document.getElementById('changeGivenEuro').value = `${changeGivenEuro.toFixed(2)} €`;
+    document.getElementById('changeGivenLeva').value = changeGivenLeva.toFixed(2);
+    document.getElementById('changeGivenEuro').value = changeGivenEuro.toFixed(2);
+}
+
+// Toggle language
+function toggleLanguage() {
+    currentLang = currentLang === 'en' ? 'bg' : 'en';
+    updateLanguage();
+}
+
+// Update all text based on current language
+function updateLanguage() {
+    // Update all elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[currentLang][key]) {
+            el.textContent = translations[currentLang][key];
+        }
+    });
+    
+    // Update placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (translations[currentLang][key]) {
+            el.placeholder = translations[currentLang][key];
+        }
+    });
+    
+    // Update food items datalist
+    updateFoodItemsList();
+    
+    // Update language button
+    if (currentLang === 'bg') {
+        langToggle.innerHTML = '<span class="flag">🇬🇧</span><span class="lang-text">EN</span>';
+    } else {
+        langToggle.innerHTML = '<span class="flag">🇧🇬</span><span class="lang-text">БГ</span>';
+    }
+    
+    // Re-render items list to update delete button text
+    renderItems();
+}
+
+// Update food items datalist based on language
+function updateFoodItemsList() {
+    const datalist = document.getElementById('foodItems');
+    datalist.innerHTML = '';
+    
+    foodItems[currentLang].forEach(item => {
+        const option = document.createElement('option');
+        option.value = item;
+        datalist.appendChild(option);
+    });
+}
+
+// Toggle dark mode
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode);
+}
+
+// Load dark mode preference
+function loadDarkModePreference() {
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+    }
 }

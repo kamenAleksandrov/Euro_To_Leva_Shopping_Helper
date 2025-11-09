@@ -28,11 +28,11 @@
         <div class="items-section">
             <h2 data-i18n="shoppingList">Shopping List</h2>
             <div class="item-input-group">
-                <input type="text" id="itemName" data-i18n-placeholder="itemName" placeholder="Item name" class="item-name-input" list="foodItems">
-                <datalist id="foodItems">
-                    <!-- Options will be populated dynamically by JavaScript -->
-                </datalist>
-                <input type="number" id="itemPrice" data-i18n-placeholder="price" placeholder="Price" step="0.01" class="item-price-input">
+                <div class="autocomplete-wrapper">
+                    <input type="text" id="itemName" data-i18n-placeholder="itemName" placeholder="Item name" class="item-name-input" autocomplete="off">
+                    <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
+                </div>
+                <input type="text" inputmode="decimal" id="itemPrice" data-i18n-placeholder="price" placeholder="Price" class="item-price-input">
                 <select id="itemCurrency" class="currency-select">
                     <option value="leva">Leva (лв)</option>
                     <option value="euro">Euro (€)</option>
@@ -57,15 +57,13 @@
         <!-- Payment Section -->
         <div class="payment-section">
             <h2 data-i18n="payment">Payment</h2>
-            <div class="payment-display">
-                <div class="payment-row">
-                    <label data-i18n="givingLeva">Giving in Leva:</label>
-                    <input type="number" id="paymentLeva" class="payment-input" step="0.01" value="0.00">
-                </div>
-                <div class="payment-row">
-                    <label data-i18n="givingEuro">Giving in Euro:</label>
-                    <input type="number" id="paymentEuro" class="payment-input" step="0.01" value="0.00">
-                </div>
+            <div class="payment-row">
+                <label data-i18n="givingLeva">Giving in Leva:</label>
+                <input type="text" inputmode="decimal" id="paymentLeva" class="payment-input" value="0.00">
+            </div>
+            <div class="payment-row">
+                <label data-i18n="givingEuro">Giving in Euro:</label>
+                <input type="text" inputmode="decimal" id="paymentEuro" class="payment-input" value="0.00">
             </div>
 
             <!-- Currency Switch -->
@@ -76,7 +74,6 @@
 
             <!-- Bills and Coins - Leva -->
             <div id="levaPanel" class="bills-panel active">
-                <h3 data-i18n="levaBillsCoins">Leva Bills & Coins</h3>
                 <div class="bills-coins-container">
                     <div class="bills-column">
                         <h4 data-i18n="bills">Bills</h4>
@@ -106,7 +103,6 @@
 
             <!-- Bills and Coins - Euro -->
             <div id="euroPanel" class="bills-panel">
-                <h3 data-i18n="euroBillsCoins">Euro Bills & Coins</h3>
                 <div class="bills-coins-container">
                     <div class="bills-column">
                         <h4 data-i18n="bills">Bills</h4>
@@ -142,15 +138,13 @@
             <!-- Change Given Section -->
             <div class="change-given-section">
                 <h3 data-i18n="changeGiven">Change Already Given</h3>
-                <div class="payment-display">
-                    <div class="payment-row">
-                        <label data-i18n="givenLeva">Given in Leva:</label>
-                        <input type="number" id="changeGivenLeva" class="payment-input" step="0.01" value="0.00">
-                    </div>
-                    <div class="payment-row">
-                        <label data-i18n="givenEuro">Given in Euro:</label>
-                        <input type="number" id="changeGivenEuro" class="payment-input" step="0.01" value="0.00">
-                    </div>
+                <div class="payment-row">
+                    <label data-i18n="givenLeva">Given in Leva:</label>
+                    <input type="text" inputmode="decimal" id="changeGivenLeva" class="payment-input" value="0.00">
+                </div>
+                <div class="payment-row">
+                    <label data-i18n="givenEuro">Given in Euro:</label>
+                    <input type="text" inputmode="decimal" id="changeGivenEuro" class="payment-input" value="0.00">
                 </div>
 
                 <!-- Currency Switch for Change Given -->

@@ -36,7 +36,7 @@ body.dark-mode {
     background: white;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    padding: 30px;
+    padding: 10px;
     transition: background 0.6s ease, box-shadow 0.6s ease;
 }
 
@@ -182,9 +182,14 @@ body.dark-mode h3 {
     flex-wrap: wrap;
 }
 
-.item-name-input {
+.autocomplete-wrapper {
     flex: 2;
     min-width: 150px;
+    position: relative;
+}
+
+.item-name-input {
+    width: 100%;
     padding: 12px;
     border: 2px solid #ddd;
     border-radius: 8px;
@@ -196,6 +201,54 @@ body.dark-mode .item-name-input {
     background: #3d3d3d;
     border-color: #555;
     color: #e0e0e0;
+}
+
+.autocomplete-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode .autocomplete-dropdown {
+    background: #3d3d3d;
+}
+
+.autocomplete-dropdown.show {
+    display: block;
+}
+
+.autocomplete-item {
+    padding: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s ease;
+}
+
+body.dark-mode .autocomplete-item {
+    border-bottom-color: #555;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+    background: #f0f0f0;
+}
+
+body.dark-mode .autocomplete-item:hover,
+body.dark-mode .autocomplete-item.active {
+    background: #4d4d4d;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
 }
 
 .item-price-input {
@@ -363,14 +416,7 @@ body.dark-mode .item-prices {
 
 /* Payment Section */
 .payment-section {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 12px;
-    transition: background 0.6s ease;
-}
-
-body.dark-mode .payment-section {
-    background: #3d3d3d;
+    margin-top: 20px;
 }
 
 .payment-display {
@@ -381,7 +427,7 @@ body.dark-mode .payment-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 .payment-row label {
@@ -521,7 +567,7 @@ body.dark-mode .coins-column h4 {
 /* Change Display */
 .change-display {
     background: white;
-    padding: 15px;
+    padding: 10px;
     border-radius: 8px;
     margin-top: 15px;
     border: 2px solid #4CAF50;
@@ -576,32 +622,27 @@ body.dark-mode .change-value {
 
 /* Change Given Section */
 .change-given-section {
-    background: #fff3e0;
-    padding: 20px;
-    border-radius: 12px;
     margin-top: 20px;
-    border: 2px solid #FF9800;
-    transition: background 0.6s ease, border-color 0.6s ease;
-}
-
-body.dark-mode .change-given-section {
-    background: #4a3a2a;
-    border-color: #ffb84d;
 }
 
 .change-given-section h3 {
     color: #FF9800;
     margin-top: 0;
+    border-bottom: 2px solid #FF9800;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    transition: color 0.6s ease, border-color 0.6s ease;
 }
 
 body.dark-mode .change-given-section h3 {
     color: #ffb84d;
+    border-bottom-color: #ffb84d;
 }
 
 /* Responsive Design */
 @media (max-width: 600px) {
     .container {
-        padding: 20px;
+        padding: 15px;
     }
     
     .header-with-lang {

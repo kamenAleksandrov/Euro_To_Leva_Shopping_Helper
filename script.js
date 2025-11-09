@@ -17,8 +17,6 @@ const translations = {
         givingEuro: "Giving in Euro:",
         levaTab: "Leva (лв)",
         euroTab: "Euro (€)",
-        levaBillsCoins: "Leva Bills & Coins",
-        euroBillsCoins: "Euro Bills & Coins",
         bills: "Bills",
         coins: "Coins",
         resetPayment: "Reset Payment",
@@ -52,8 +50,6 @@ const translations = {
         givingEuro: "Давам в Евро:",
         levaTab: "Лева (лв)",
         euroTab: "Евро (€)",
-        levaBillsCoins: "Банкноти и Монети в Лева",
-        euroBillsCoins: "Банкноти и Монети в Евро",
         bills: "Банкноти",
         coins: "Монети",
         resetPayment: "Нулирай Плащане",
@@ -111,7 +107,7 @@ const foodItems = {
     ]
 };
 
-let currentLang = 'en';
+let currentLang = 'bg';
 
 // App state
 let items = [];
@@ -148,25 +144,38 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') addItem();
     });
     
+    // Custom autocomplete functionality
+    setupAutocomplete();
+    
+    // Helper function to parse value with either comma or period as decimal separator
+    const parseDecimal = (value) => {
+        if (!value) return 0;
+        // Replace comma with period for parsing
+        return parseFloat(value.toString().replace(',', '.')) || 0;
+    };
+    
     // Manual edit for payment fields
     paymentLevaInput.addEventListener('input', () => {
-        paymentLeva = parseFloat(paymentLevaInput.value) || 0;
+        paymentLeva = parseDecimal(paymentLevaInput.value);
         updateChange();
     });
     
     paymentEuroInput.addEventListener('input', () => {
-        paymentEuro = parseFloat(paymentEuroInput.value) || 0;
+        paymentEuro = parseDecimal(paymentEuroInput.value);
         updateChange();
     });
     
     // Manual edit for change given fields
-    document.getElementById('changeGivenLeva').addEventListener('input', (e) => {
-        changeGivenLeva = parseFloat(e.target.value) || 0;
+    const changeGivenLevaInput = document.getElementById('changeGivenLeva');
+    const changeGivenEuroInput = document.getElementById('changeGivenEuro');
+    
+    changeGivenLevaInput.addEventListener('input', (e) => {
+        changeGivenLeva = parseDecimal(e.target.value);
         updateChange();
     });
     
-    document.getElementById('changeGivenEuro').addEventListener('input', (e) => {
-        changeGivenEuro = parseFloat(e.target.value) || 0;
+    changeGivenEuroInput.addEventListener('input', (e) => {
+        changeGivenEuro = parseDecimal(e.target.value);
         updateChange();
     });
     
@@ -209,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     darkModeToggle.addEventListener('click', toggleDarkMode);
     
     // Initialize displays
+    updateLanguage(); // Set initial language to Bulgarian
     updateChangeGivenDisplay();
     updateFoodItemsList();
     loadDarkModePreference();
@@ -217,7 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // Add item to the list
 function addItem() {
     const name = itemNameInput.value.trim();
-    const price = parseFloat(itemPriceInput.value);
+    // Parse price with comma or period support
+    const priceValue = itemPriceInput.value.replace(',', '.');
+    const price = parseFloat(priceValue);
     const currency = itemCurrencySelect.value;
     
     if (!name || isNaN(price) || price <= 0) {
@@ -480,16 +492,88 @@ function updateLanguage() {
     renderItems();
 }
 
+// Setup custom autocomplete
+function setupAutocomplete() {
+    const dropdown = document.getElementById('autocompleteDropdown');
+    const allItems = [...new Set([...foodItems.en, ...foodItems.bg])];
+    let currentFocus = -1;
+    
+    itemNameInput.addEventListener('input', (e) => {
+        const value = e.target.value.toLowerCase();
+        dropdown.innerHTML = '';
+        currentFocus = -1;
+        
+        if (!value) {
+            dropdown.classList.remove('show');
+            return;
+        }
+        
+        const matches = allItems.filter(item => 
+            item.toLowerCase().includes(value)
+        ).slice(0, 10); // Limit to 10 results
+        
+        if (matches.length === 0) {
+            dropdown.classList.remove('show');
+            return;
+        }
+        
+        matches.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'autocomplete-item';
+            div.textContent = item;
+            div.addEventListener('click', () => {
+                itemNameInput.value = item;
+                dropdown.classList.remove('show');
+                itemPriceInput.focus();
+            });
+            dropdown.appendChild(div);
+        });
+        
+        dropdown.classList.add('show');
+    });
+    
+    // Keyboard navigation
+    itemNameInput.addEventListener('keydown', (e) => {
+        const items = dropdown.querySelectorAll('.autocomplete-item');
+        if (!items.length) return;
+        
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            currentFocus++;
+            if (currentFocus >= items.length) currentFocus = 0;
+            setActive(items);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            currentFocus--;
+            if (currentFocus < 0) currentFocus = items.length - 1;
+            setActive(items);
+        } else if (e.key === 'Enter' && currentFocus > -1) {
+            e.preventDefault();
+            items[currentFocus].click();
+        } else if (e.key === 'Escape') {
+            dropdown.classList.remove('show');
+        }
+    });
+    
+    function setActive(items) {
+        items.forEach(item => item.classList.remove('active'));
+        if (currentFocus >= 0 && currentFocus < items.length) {
+            items[currentFocus].classList.add('active');
+            items[currentFocus].scrollIntoView({ block: 'nearest' });
+        }
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!itemNameInput.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
+}
+
 // Update food items datalist based on language
 function updateFoodItemsList() {
-    const datalist = document.getElementById('foodItems');
-    datalist.innerHTML = '';
-    
-    foodItems[currentLang].forEach(item => {
-        const option = document.createElement('option');
-        option.value = item;
-        datalist.appendChild(option);
-    });
+    // No longer needed with custom autocomplete, but keeping for compatibility
 }
 
 // Toggle dark mode
